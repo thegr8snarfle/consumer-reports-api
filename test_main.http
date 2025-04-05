@@ -1,0 +1,28 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/hello/User
+Accept: application/json
+
+###
+
+POST http://127.0.0.1:8000/gptapi/v1/boogers/something
+Accept: application/json
+
+{
+   input: "tell me how american akitas are the best dog breed ever"
+}
+
+###
+
+POST http://127.0.0.1:8000/gptapi/v1/response
+Content-Type: application/json
+Accept: application/json
+
+{
+   "input": "tell me how american akitas are the best dog breed ever"
+}
