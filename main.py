@@ -1,46 +1,28 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from chatgpt_api import ChatGPTAPI
-from pydantic import BaseModel
-from pydantic_settings import BaseSettings
-import os
+from config import Settings
+from model import APIRequest, APIResponse
 
 
-class Settings(BaseSettings):
-    app_name: str = "My FastAPI App"
-    debug: bool = False
-
-settings = Settings()  # Automatically loads from environment variables
-
-class APIRequest(BaseModel):
-    input: str
-
-
+settings = Settings.Settings()  # Automatically loads from environment variables
 app = FastAPI(settings=settings)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+
+@app.get("/consumer-report/v1/echo/{input}")
+async def echo(input: str):
+    return {f"message": {input}}
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-@app.post("/gptapi/v1/response")
-async def gptapi_response(request: APIRequest):
+@app.post("/consumer-report/v1/product/query", response_model=APIResponse)
+async def query(request: APIRequest):
     try:
         api = ChatGPTAPI(
             model_type='gpt-40'
         )
-        return api.request_response(
-            input_string=request.input
+        api_response = api.create_response(
+            api_request=request
         )
+        # return api_response
+        return APIResponse(data=api_response)
     except Exception as e:
-        return {"oh nooooo!!!!!! ---->": str(e)}
-
-@app.post("/gptapi/v1/boogers/{thing}")
-async def gptapi_booger(thing: str, body: dict):
-    return {
-        "response": thing,
-        "body": body
-    }
+        raise HTTPException(status_code=400, detail=f'Oh shit oh shit >>> {e}')

@@ -1,6 +1,7 @@
 import os
+import json
 from openai import OpenAI
-
+from model import APIRequest
 
 class ChatGPTAPI:
     def __init__(self, model_type):
@@ -40,15 +41,40 @@ class ChatGPTAPI:
         except Exception as e:
             print(f'couldnt build openai client: {e}')
 
-    def request_response(self, input_string):
+    def create_response(self, api_request: APIRequest):
         try:
+            prompt_input = f"""As a prospective buyer, in JSON format, i would like to know the following about 
+                {api_request.product_name}: the name, description, purpose served, price, where to buy, manufacturer SKU, pros and cons from
+                user reviews. 
+            """
             if self.client is None:
                 raise Exception('No client initialized.')
-            return self.client.responses.create(
-                model="gpt-4o",
-                input=input_string
+            api_response = self.client.responses.create(
+                model='gpt-3.5-turbo',
+                input=prompt_input,
+                tool_choice='none'
             )
-        except Exception as e:
+            # TODO find better/cleaner syntax
             return {
-                'error': str(e)
+                'response_id': api_response.id,
+                'output': self.parse_json(api_response.output[0].content[0].text),
+                'status': api_response.output[0].status,
+                'role': api_response.output[0].role,
+                'annotations': api_response.output[0].content[0].annotations,
+                # 'usage': api_response.usage
             }
+        except Exception as e:
+            raise Exception(e)
+
+    def parse_json(self, raw_json: str):
+        json_str = None
+        if raw_json.startswith("json"):
+            # Remove the prefix and any leading whitespace/newlines
+            json_str = raw_json[len("json"):].strip()
+        else:
+            json_str = raw_json
+
+        if json_str is not None:
+            return json.loads(json_str)
+        else:
+            raise Exception('Unable to parse JSON response.')
