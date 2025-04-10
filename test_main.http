@@ -1,12 +1,19 @@
 # Test your FastAPI endpoints
-GET http://127.0.0.1:8000/consumer-report/v1/echo/boogers
+GET http://127.0.0.1:8000/
 Accept: application/json
 
 
 ###
 
 
-POST http://127.0.0.1:8000/consumer-report/v1/product/query
+GET http://127.0.0.1:8000/system/echo/boogers
+Accept: application/json
+
+
+###
+
+
+POST http://127.0.0.1:8000/consumer-reports/v1/product/query
 Content-Type: application/json
 Accept: application/json
 
