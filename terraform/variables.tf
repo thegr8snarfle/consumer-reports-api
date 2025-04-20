@@ -34,11 +34,6 @@ variable "lambda_zip_file_name" {
   type        = string
 }
 
-# variable "s3_artifacts_bucket_key" {
-#   description = "The S3 key/path for the Lambda ZIP package."
-#   type        = string
-# }
-
 variable "s3_artifacts_bucket_name" {
   description = "The name for the artifacts S3 bucket"
   type        = string

@@ -1,10 +1,10 @@
-variable "bucket_name" {
-  description = "Name of the S3 bucket to create"
-  type        = string
+variable "tags" {
+  description = "Resource tags"
+  type        = map(string)
 }
 
-variable "project_prefix" {
-  description = "Name of the S3 bucket prefix!"
+variable "bucket_name" {
+  description = "Name of the S3 bucket to create"
   type        = string
 }
 

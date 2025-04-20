@@ -32,17 +32,15 @@ data "aws_iam_policy_document" "assume_lambda_role_policy" {
 }
 
 resource "aws_iam_policy" "lambda_s3_policy" {
-  name = "s3_${var.function_name}_access_policy"
+  name        = "s3_${var.function_name}_access_policy"
   description = "Policy granting access for the lambda to the S3 bucket."
-  policy = data.aws_iam_policy_document.lambda_s3_bucket_access.json
+  policy      = data.aws_iam_policy_document.lambda_s3_bucket_access.json
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "${var.function_name}-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_lambda_role_policy.json
-  tags = { //todo
-    tag-key = "consumer-reports"
-  }
+  name                = "${var.function_name}-role"
+  assume_role_policy  = data.aws_iam_policy_document.assume_lambda_role_policy.json
+  tags                = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
@@ -57,7 +55,5 @@ resource "aws_lambda_function" "lambda" {
   handler         = var.handler
   runtime         = var.runtime
   role            = aws_iam_role.lambda_role.arn
-  tags = { //todo
-    tag-key = "consumer-reports"
-  }
+  tags            = var.tags
 }

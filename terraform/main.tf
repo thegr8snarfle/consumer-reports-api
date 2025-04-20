@@ -19,9 +19,9 @@ provider "aws" {
 module "s3_lambda_artifacts" {
   source                  = "./modules/s3-bucket"
   bucket_name             = var.s3_artifacts_bucket_name
-  project_prefix          = var.project_prefix
   lambda_zip_file_path    = var.lambda_zip_file_path
   lambda_zip_file_name    = var.lambda_zip_file_name
+  tags                    = var.tags
 }
 
 module "lambda_function" {
@@ -29,8 +29,16 @@ module "lambda_function" {
   function_name             = var.lambda_function_name
   handler                   = var.lambda_handler
   runtime                   = var.lambda_runtime
-  project_prefix            = var.project_prefix
   s3_bucket_name            = module.s3_lambda_artifacts.bucket_name
   s3_bucket__object_key     = module.s3_lambda_artifacts.bucket_key
   s3_bucket_arn             = module.s3_lambda_artifacts.bucket_arn
+  tags                      = var.tags
+}
+
+module "api_gateway" {
+  source                   = "./modules/api-gateway"
+  lambda_function_name     = module.lambda_function.lambda_function_name
+  lambda_function_arn      = module.lambda_function.lambda_function_arn
+  tags                     = var.tags
+  project_prefix           = var.project_prefix
 }

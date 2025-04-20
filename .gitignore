@@ -178,3 +178,11 @@ cython_debug/
 .pypirc
 
 .DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+crash.log
+plan

@@ -1,6 +1,6 @@
-variable "project_prefix" {
-  description = "Name of the S3 bucket prefix!"
-  type        = string
+variable "tags" {
+  description = "Resource tags"
+  type        = map(string)
 }
 
 variable "function_name" {
