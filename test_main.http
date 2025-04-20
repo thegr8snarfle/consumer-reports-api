@@ -20,3 +20,14 @@ Accept: application/json
 {
    "product_name": "Victron Energy BMV-712 Smart Battery Monitor"
 }
+
+
+###
+
+POST https://fp5ady0bgj.execute-api.us-east-1.amazonaws.com/prod/consumer-reports/v1/product/query
+Content-Type: application/json
+Accept: application/json
+
+{
+   "product_name": "Victron Energy BMV-712 Smart Battery Monitor"
+}
