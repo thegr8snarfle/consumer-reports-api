@@ -1,0 +1,5 @@
+fastapi
+mangum
+uvicorn
+h11<0.15,>=0.13
+httpcore==1.0.7

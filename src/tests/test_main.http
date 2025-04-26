@@ -6,7 +6,20 @@ Accept: application/json
 ###
 
 
+GET https://fp5ady0bgj.execute-api.us-east-1.amazonaws.com/prod/
+Accept: application/json
+
+
+###
+
+
 GET http://127.0.0.1:8000/system/echo/boogers
+Accept: application/json
+
+
+###
+
+GET https://fp5ady0bgj.execute-api.us-east-1.amazonaws.com/prod/system/echo/boogers
 Accept: application/json
 
 
@@ -18,7 +31,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-   "product_name": "Victron Energy BMV-712 Smart Battery Monitor"
+   "product_name": "Steamdeck 512gb"
 }
 
 

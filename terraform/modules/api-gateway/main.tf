@@ -42,8 +42,10 @@ resource "aws_apigatewayv2_stage" "prod" {
 
     # Turn on execution logging & data trace
   default_route_settings {
-    logging_level      = "ERROR"   # INFO | ERROR | OFF
+    logging_level      = "INFO"   # INFO | ERROR | OFF
     data_trace_enabled = true     # include request/response bodies
+    throttling_burst_limit =  1000
+    throttling_rate_limit  =  5000
   }
 
   # Access logs: each request → one log line
